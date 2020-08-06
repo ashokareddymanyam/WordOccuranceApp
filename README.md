@@ -1,1 +1,1 @@
-# WordOccuranceApp
+# WordOccurrenceApp
