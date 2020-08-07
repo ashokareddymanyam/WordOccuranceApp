@@ -6,8 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class WordOccurance {
 
@@ -24,7 +26,10 @@ public class WordOccurance {
 				//Comparing map values to sort based on value desc;
 				Comparator<Entry<String, Integer>> comparator = Comparator.comparing(Map.Entry<String, Integer>::getValue).reversed();
 				//Comparator<Entry<Object, Object>> comparingByValue = Map.Entry.comparingByValue(Collections.reverseOrder());
-				counterMap.entrySet().stream().sorted(comparator).forEach(i->System.out.println(i.getKey() +":"+i.getValue()));
+				LinkedHashMap<String, Integer> collect = counterMap.entrySet().stream().sorted(comparator)
+						.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,(a,b)->a, LinkedHashMap::new));
+				
+				System.out.println(collect);
 			} catch (IOException e) {
 				System.out.println("Exception message"+e.getMessage());
 			} 
@@ -40,6 +45,7 @@ public class WordOccurance {
 	 */
 	private static void prepareCounterMap(Map<String, Integer> counterMap, String st) {
 		String[] words = st.split(" ");
+		
 		for(int j=0;j<words.length;j++) {
 			String key = words[j].strip();
 			if(counterMap.containsKey(key)) {

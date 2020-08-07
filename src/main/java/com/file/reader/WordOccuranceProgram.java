@@ -2,6 +2,7 @@ package com.file.reader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,9 +22,8 @@ public class WordOccuranceProgram {
 	 */
 	public void printWordOccurance() {
 		String filePath = "d:/text.txt";
-		Map<String, Integer> counterMap;
 		try {
-			counterMap = fileReaderMethod(filePath);
+			Map<String, Integer> counterMap = fileReaderMethod(filePath);
 			printWordOccurance(counterMap);
 		} catch (Exception e) {
 			System.out.println("Exception Message :" + e.getMessage());
@@ -59,16 +59,15 @@ public class WordOccuranceProgram {
 	 * @param nextLine
 	 */
 	public String prepareWordOccurrenceMap(Map<String, Integer> counterMap, String nextLine) {
-		String[] words = nextLine.split(" ");
-		for(int j=0;j<words.length;j++) {
-			String key = words[j].trim();
+		Arrays.stream(nextLine.split(" ")).forEach(i->{
+			String key = i.strip();
 			if(counterMap.containsKey(key)) {
 				Integer integer = counterMap.get(key);
 				counterMap.put(key,integer+1);
 			} else {
 				counterMap.put(key,1);
 			}
-		}
+		});
 		return "successfull";
 	}
 
